@@ -1,27 +1,23 @@
 package com.example.jarvis.ui.main
 
-import com.example.jarvis.data.DataRepository
-import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runTest
+import com.example.jarvis.data.ChatHistoryEntry
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Test
 
-class MainScreenViewModelTest {
-  @Test
-  fun uiState_initiallyLoading() = runTest {
-    val viewModel = MainScreenViewModel(FakeMyModelRepository())
-    assertEquals(viewModel.uiState.first(), MainScreenUiState.Loading)
-  }
+class JarvisVoiceAssistantTest {
+    @Test
+    fun chatHistoryEntry_initialization() {
+        val entry = ChatHistoryEntry(message = "Hello Jarvis", isUser = true)
+        assertEquals("Hello Jarvis", entry.message)
+        assertEquals(true, entry.isUser)
+        assertNotNull(entry.timestamp)
+    }
 
-  @Test
-  fun uiState_onItemSaved_isDisplayed() = runTest {
-    val viewModel = MainScreenViewModel(FakeMyModelRepository())
-    assertEquals(viewModel.uiState.first(), MainScreenUiState.Loading)
-  }
-}
-
-private class FakeMyModelRepository : DataRepository {
-  override val data: Flow<List<String>> = flow { emit(listOf("Sample")) }
+    @Test
+    fun chatHistoryEntry_assistantResponse() {
+        val entry = ChatHistoryEntry(message = "At your service, Sir.", isUser = false)
+        assertEquals("At your service, Sir.", entry.message)
+        assertEquals(false, entry.isUser)
+    }
 }
