@@ -1,6 +1,7 @@
 package com.example.jarvis.ui.main
 
 import android.Manifest
+import android.app.Application
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation3.runtime.NavKey
 import com.example.jarvis.data.ChatHistoryEntry
 import kotlinx.coroutines.delay
@@ -57,7 +59,11 @@ val JarvisGlow = Color(0x3300E5FF)
 fun MainScreen(
     onItemClick: (NavKey) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MainScreenViewModel = viewModel()
+    viewModel: MainScreenViewModel = viewModel(
+        factory = ViewModelProvider.AndroidViewModelFactory.getInstance(
+            LocalContext.current.applicationContext as Application
+        )
+    )
 ) {
     val context = LocalContext.current
     
